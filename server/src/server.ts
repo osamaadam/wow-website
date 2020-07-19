@@ -1,20 +1,24 @@
+import { ApolloServer } from "apollo-server-express";
 import express from "express";
-import { Sequelize } from "sequelize";
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/typedefs";
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5000;
-const app = express();
+const main = async () => {
+  const PORT = process.env.PORT || 5000;
+  const app = express();
 
-const authDB = new Sequelize(
-  "acore_auth",
-  process.env.MYSQL_USER,
-  process.env.MYSQL_PASSWORD,
-  {
-    dialect: "mysql",
-  }
-);
+  const graphqlServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}..`);
-});
+  graphqlServer.applyMiddleware({ app });
+
+  app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}..`);
+  });
+};
+
+main();
