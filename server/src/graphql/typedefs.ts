@@ -1,11 +1,6 @@
 import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
-  input Login {
-    username: String!
-    password: String!
-  }
-
   input Register {
     username: String!
     password: String!
@@ -35,12 +30,12 @@ const typeDefs = gql`
 
   type Query {
     account(id: Int!): Account!
-    login(credentials: Login): Account!
+    login(username: String!, password: String!): Account!
   }
 
   type Mutation {
     updateEmail(details: UpdateEmail!): Email!
-    register(user: Register!): Account!
+    register(username: String!, email: String!, password: String!): Account!
   }
 `;
 

@@ -1,6 +1,5 @@
-import { authDB } from "../../database/connections";
 import { ApolloError } from "apollo-server-express";
-import { getFields } from "../utility/getFields";
+import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
 
 export const updateEmail = async (
@@ -49,18 +48,15 @@ export const updateEmail = async (
 export const register = async (
   _: any,
   args: {
-    user: {
-      username: string;
-      password: string;
-      email: string;
-    };
+    username: string;
+    password: string;
+    email: string;
   },
   context: any,
   info: any
 ) => {
   try {
-    const queryFields = getFields(info);
-    const { username, password, email } = args.user;
+    const { username, password, email } = args;
 
     if (
       !username.trim().length ||
@@ -80,7 +76,7 @@ export const register = async (
 
     const [newUser, __] = await authDB.execute(
       `
-        SELECT ${queryFields} FROM account
+        SELECT * FROM account
         WHERE username = "${username}"
       `
     );

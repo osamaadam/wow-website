@@ -1,0 +1,117 @@
+html {
+  --highlightColor: #ffc107;
+  --highlightColorComplement: #003ef8;
+  --backgroundColor: #303030;
+  --paperBackground: #424242;
+  --primaryColor: #fff;
+  --secondaryColor: rgba(255, 255, 255, 0.7);
+  --disabled: rgba(255, 255, 255, 0.5);
+  --hover: rgba(255, 255, 255, 0.08);
+  --success: #4caf50;
+  --error: #f44336;
+  scroll-behavior: smooth;
+  --border: 2px solid var(--primaryColor);
+  --borderRadius: 8px;
+}
+
+html[data-theme="light"] {
+  --backgroundColor: #eee;
+  --paperBackground: #fafafa;
+  --primaryColor: rgba(0, 0, 0, 0.87);
+  --highlightColor: #098203;
+  --highlightColorComplement: #f67dfc;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+*::selection {
+  background-color: var(--highlightColor);
+  color: var(--backgroundColor);
+}
+
+a {
+  color: var(--highlightColor);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+p {
+  line-height: 1.45em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--highlightColor);
+}
+
+h4 {
+  text-transform: uppercase;
+  padding-bottom: 0.2em;
+}
+
+body {
+  background-color: var(--backgroundColor);
+  color: var(--primaryColor);
+  font-family: "Montserrat", sans-serif;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  background-color: #fafafa;
+  border-width: 0;
+  padding: 1em;
+  border-radius: var(--borderRadius);
+  border: var(--border);
+  transition-property: border-color;
+  transition-duration: 250ms;
+  &:focus {
+    border-color: var(--highlightColor);
+    outline: none;
+  }
+}
+
+.highlight {
+  box-sizing: border-box;
+  background: var(--highlightColor);
+  display: inline;
+  padding: 0.2em 0.2em;
+  color: var(--backgroundColor);
+  border-radius: var(--borderRadius);
+}
+
+.button {
+  border: 0;
+  min-width: max-content;
+  padding: 0.5em 1em;
+  background-color: var(--highlightColor);
+  color: var(--backgroundColor);
+  font-size: 1.1em;
+  border-radius: var(--borderRadius);
+  transition-property: background-color color;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  &:hover {
+    background-color: var(--hover);
+    color: var(--highlightColor);
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.container {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
