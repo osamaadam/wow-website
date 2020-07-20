@@ -1,5 +1,5 @@
 import { account, login } from "./resolvers/queries";
-import { updateEmail } from "./resolvers/mutations";
+import { updateEmail, register } from "./resolvers/mutations";
 
 const resolvers = {
   Query: {
@@ -8,6 +8,7 @@ const resolvers = {
   },
   Mutation: {
     updateEmail,
+    register,
   },
 };
 

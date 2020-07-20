@@ -1,5 +1,7 @@
 import { authDB } from "../../database/connections";
 import { ApolloError } from "apollo-server-express";
+import { getFields } from "../utility/getFields";
+import { encryptPassword } from "../utility/encryptPassword";
 
 export const updateEmail = async (
   _: any,
@@ -39,6 +41,55 @@ export const updateEmail = async (
     );
 
     return { email: args.details.newEmail };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const register = async (
+  _: any,
+  args: {
+    user: {
+      username: string;
+      password: string;
+      email: string;
+    };
+  },
+  context: any,
+  info: any
+) => {
+  try {
+    const queryFields = getFields(info);
+    const { username, password, email } = args.user;
+
+    if (
+      !username.trim().length ||
+      !password.trim().length ||
+      !email.trim().length
+    )
+      throw new ApolloError("Please, enter all fields!", "400");
+
+    const encryptedPassword = encryptPassword(username, password);
+
+    await authDB.execute(
+      `
+        INSERT INTO account (username, sha_pass_hash, email, joindate)
+        VALUES ("${username}", "${encryptedPassword}", "${email}", NOW());
+      `
+    );
+
+    const [newUser, __] = await authDB.execute(
+      `
+        SELECT ${queryFields} FROM account
+        WHERE username = "${username}"
+      `
+    );
+
+    const account: Account = {
+      ...newUser[0],
+    };
+
+    return account;
   } catch (error) {
     throw error;
   }

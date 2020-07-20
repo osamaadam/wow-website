@@ -6,6 +6,12 @@ const typeDefs = gql`
     password: String!
   }
 
+  input Register {
+    username: String!
+    password: String!
+    email: String!
+  }
+
   input UpdateEmail {
     id: Int!
     oldEmail: String!
@@ -33,7 +39,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    updateEmail(details: UpdateEmail): Email!
+    updateEmail(details: UpdateEmail!): Email!
+    register(user: Register!): Account!
   }
 `;
 
