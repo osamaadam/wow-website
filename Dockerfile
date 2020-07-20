@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12-alpine as builder
 
 WORKDIR /app
 
@@ -10,4 +10,19 @@ RUN yarn
 
 COPY . .
 
-CMD ["yarn", "dev"]
+RUN yarn run client:build && \
+  yarn run server:build && \
+  mv client/build/ . && \
+  rm -rf client/ && \
+  rm -rf server/src && \
+  yarn --prod
+
+FROM node:12-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app .
+
+EXPOSE 80
+
+CMD ["yarn", "server:prod"]
