@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 
-interface User {
+export interface User {
   id: string;
   username: string;
   password?: string;
@@ -12,7 +12,7 @@ interface User {
   muteby: string;
 }
 
-interface Context {
+export interface Context {
   auth?: {
     id: number;
     last_ip: string;
@@ -22,7 +22,7 @@ interface Context {
   isAuthenticated: boolean;
 }
 
-type gqlDefaultInput<Args = {}, Parent = {}> = [
+export type gqlDefaultInput<Args = {}, Parent = {}> = [
   Parent,
   Args,
   Context,
