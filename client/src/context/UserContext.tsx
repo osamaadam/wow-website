@@ -13,13 +13,16 @@ interface Action {
   };
 }
 
+const token = localStorage.getItem("token");
+const username = localStorage.getItem("username");
+
 export const initialState: State = {
   user: {
     id: 0,
-    username: "",
+    username: username || "",
     email: "",
   },
-  isLoggedIn: false,
+  isLoggedIn: Boolean(token),
 };
 
 export const UserContext = React.createContext<{
@@ -33,6 +36,7 @@ export const UserContext = React.createContext<{
 const login = (state: State, user: User, token: string) => {
   const updatedState = state;
   localStorage.setItem("token", token);
+  localStorage.setItem("username", user.username);
   return {
     ...updatedState,
     user,

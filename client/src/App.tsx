@@ -38,10 +38,10 @@ const App = () => {
 
   React.useLayoutEffect(() => {
     const token = localStorage.getItem("token");
-    if (!userContext.isLoggedIn && token) {
+    if (!userContext.user.id && token) {
       getUser();
     }
-  }, [userContext.isLoggedIn, getUser]);
+  }, [userContext.user.id, getUser]);
 
   React.useLayoutEffect(() => {
     if (!loading && data) {
