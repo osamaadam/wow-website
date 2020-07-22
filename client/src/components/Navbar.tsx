@@ -1,10 +1,13 @@
 import React from "react";
 import "../scss/navbar.scss";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const { state, dispatch } = React.useContext(UserContext);
+
+  const location = useLocation();
 
   const handleLogout = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -14,22 +17,37 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar__link">
+      <NavLink
+        activeClassName="navbar__link--highlighted"
+        exact
+        to="/"
+        className="navbar__link"
+      >
         home
-      </Link>
+      </NavLink>
       {!state.isLoggedIn && (
-        <Link to="/register" className="navbar__link">
+        <NavLink
+          activeClassName="navbar__link--highlighted"
+          to="/register"
+          className="navbar__link"
+        >
           register
-        </Link>
+        </NavLink>
       )}
       {state.isLoggedIn ? (
         <button className="button navbar__login" onClick={handleLogout}>
           Logout
         </button>
       ) : (
-        <Link to="/login" className="button navbar__login">
-          Login
-        </Link>
+        location.pathname !== "/login" && (
+          <NavLink
+            activeClassName="navbar__link--highlighted"
+            to="/login"
+            className="button navbar__login"
+          >
+            Login
+          </NavLink>
+        )
       )}
     </nav>
   );
