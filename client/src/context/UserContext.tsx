@@ -43,6 +43,8 @@ const login = (state: State, user: User, token: string) => {
 const logout = (state: State) => {
   const updatedState = state;
   localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  window.location.reload();
   return {
     ...updatedState,
     user: initialState.user,

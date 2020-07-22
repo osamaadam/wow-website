@@ -76,7 +76,8 @@ textarea {
   border: var(--border);
   transition-property: border-color;
   transition-duration: 250ms;
-  &:focus {
+  &:focus,
+  &:hover {
     border-color: var(--highlightColor);
     outline: none;
   }

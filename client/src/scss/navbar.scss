@@ -13,5 +13,12 @@
     &:last-child {
       margin-right: 0;
     }
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+  &__login {
+    margin-left: auto;
   }
 }

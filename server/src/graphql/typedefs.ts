@@ -18,6 +18,11 @@ const typeDefs = gql`
     password: String!
   }
 
+  type UserWithToken {
+    user: User!
+    token: String!
+  }
+
   type Email {
     email: String!
   }
@@ -34,12 +39,13 @@ const typeDefs = gql`
   }
 
   type Query {
-    login(user: Login!): User!
+    login(user: Login!): UserWithToken!
+    user: UserWithToken!
   }
 
   type Mutation {
     updateEmail(details: UpdateEmail!): Email!
-    register(user: Register): User!
+    register(user: Register): UserWithToken!
   }
 `;
 

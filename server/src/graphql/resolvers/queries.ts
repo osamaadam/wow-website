@@ -1,6 +1,7 @@
-import { authDB } from "../../database/connections";
 import { ApolloError } from "apollo-server-express";
+import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
+import { signToken } from "../utility/signToken";
 
 export const login = async (
   _: any,
@@ -34,5 +35,34 @@ export const login = async (
   if (encryptedPassword !== user.password || !rows[0])
     throw new ApolloError("Invalid credentials!", "401");
 
-  return user;
+  const token = signToken(user);
+
+  return { user, token };
+};
+
+export const user = async (_: any, __: any, context: Context) => {
+  try {
+    const { auth } = context;
+
+    if (!auth) throw new ApolloError("Bad token", "401");
+
+    const [rows, ___] = await authDB.execute(
+      `
+      SELECT * FROM account
+      WHERE id = ${auth.id}
+    `
+    );
+
+    if (!rows) throw new ApolloError("User not found", "404");
+
+    const user = {
+      ...rows[0],
+    };
+
+    const token = signToken(user);
+
+    return { user, token };
+  } catch (error) {
+    throw error;
+  }
 };

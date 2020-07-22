@@ -1,6 +1,7 @@
 import { ApolloError } from "apollo-server-express";
 import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
+import { signToken } from "../utility/signToken";
 
 export const updateEmail = async (
   _: any,
@@ -87,7 +88,9 @@ export const register = async (
       ...newUser[0],
     };
 
-    return user;
+    const token = signToken(user);
+
+    return { user, token };
   } catch (error) {
     throw error;
   }

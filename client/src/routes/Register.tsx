@@ -2,26 +2,34 @@ import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import "../scss/register-page.scss";
 import { UserContext } from "../context/UserContext";
+import { useHistory } from "react-router-dom";
 
 const Register: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { dispatch } = React.useContext(UserContext);
+  const { state, dispatch } = React.useContext(UserContext);
 
-  const [register, { data, loading, error }] = useMutation<{ user: User }>(
+  const history = useHistory();
+
+  const [register, { data, loading, error }] = useMutation<{
+    info: { user: User; token: string };
+  }>(
     gql`
       mutation register($user: Register) {
-        user: register(user: $user) {
-          id
-          username
-          email
-          last_ip
-          last_attempt_ip
-          mutetime
-          mutereason
-          muteby
+        info: register(user: $user) {
+          user {
+            id
+            username
+            email
+            last_ip
+            last_attempt_ip
+            mutetime
+            mutereason
+            muteby
+          }
+          token
         }
       }
     `
@@ -32,11 +40,15 @@ const Register: React.FC = () => {
     event.preventDefault();
   };
 
+  React.useLayoutEffect(() => {
+    if (state.isLoggedIn) history.replace("/");
+  }, [state.isLoggedIn, history]);
+
   React.useEffect(() => {
     if (!loading && data) {
       dispatch({
         type: "login",
-        payload: { user: { ...data.user }, token: "test" },
+        payload: { user: { ...data.info.user }, token: data.info.token },
       });
     }
     if (error) console.error(error.message);

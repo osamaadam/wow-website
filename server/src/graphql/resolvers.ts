@@ -1,9 +1,10 @@
 import { register, updateEmail } from "./resolvers/mutations";
-import { login } from "./resolvers/queries";
+import { login, user } from "./resolvers/queries";
 
 const resolvers = {
   Query: {
     login,
+    user,
   },
   Mutation: {
     updateEmail,

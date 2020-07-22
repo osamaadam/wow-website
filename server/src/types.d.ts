@@ -9,3 +9,12 @@ interface User {
   mutereason: string;
   muteby: string;
 }
+
+interface Context {
+  auth: {
+    id: number;
+    last_ip: string;
+    iat: Date;
+    exp: Date;
+  };
+}
