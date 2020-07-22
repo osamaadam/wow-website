@@ -13,22 +13,27 @@ const app = express();
 const graphqlServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
+  context: ({ req }): Context => {
     try {
       const token = req.header("authentication");
 
       if (!token)
         return {
-          auth: "UNAUTHENTICATED",
+          isAuthenticated: false,
         };
       else {
+        const auth = jwt.verify(
+          token,
+          process.env.JWT_SECRET
+        ) as Context["auth"];
         return {
-          auth: jwt.verify(token, process.env.JWT_SECRET),
+          auth,
+          isAuthenticated: true,
         };
       }
     } catch (e) {
       return {
-        auth: "UNAUTHENTICATED",
+        isAuthenticated: false,
       };
     }
   },

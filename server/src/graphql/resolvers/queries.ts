@@ -42,9 +42,9 @@ export const login = async (
 
 export const user = async (_: any, __: any, context: Context) => {
   try {
-    const { auth } = context;
+    const { auth, isAuthenticated } = context;
 
-    if (!auth) throw new ApolloError("Bad token", "401");
+    if (!isAuthenticated) throw new ApolloError("Bad token", "401");
 
     const [rows, ___] = await authDB.execute(
       `

@@ -11,10 +11,11 @@ interface User {
 }
 
 interface Context {
-  auth: {
+  auth?: {
     id: number;
     last_ip: string;
     iat: Date;
     exp: Date;
   };
+  isAuthenticated: boolean;
 }
