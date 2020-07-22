@@ -1,10 +1,9 @@
 import { ApolloError } from "apollo-server-express";
+import { gqlDefaultInput, User } from "src/types";
 import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
-import { signToken } from "../utility/signToken";
 import { sanitizeInput } from "../utility/sanitizeInput";
-import { gqlDefaultInput, User } from "src/types";
-import { getFields } from "../utility/getFields";
+import { signToken } from "../utility/signToken";
 
 export const login = async (
   ...input: gqlDefaultInput<{
