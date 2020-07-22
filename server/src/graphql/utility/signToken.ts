@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { User } from "src/types";
 
 export const signToken = (user: User) => {
   const token = jwt.sign(
