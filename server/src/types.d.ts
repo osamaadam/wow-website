@@ -1,3 +1,5 @@
+import { GraphQLResolveInfo } from "graphql";
+
 interface User {
   id: string;
   username: string;
@@ -19,3 +21,10 @@ interface Context {
   };
   isAuthenticated: boolean;
 }
+
+type gqlDefaultInput<Args = {}, Parent = {}> = [
+  Parent,
+  Args,
+  Context,
+  GraphQLResolveInfo
+];

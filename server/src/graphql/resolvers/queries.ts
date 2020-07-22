@@ -2,20 +2,25 @@ import { ApolloError } from "apollo-server-express";
 import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
 import { signToken } from "../utility/signToken";
+import { sanitizeInput } from "../utility/sanitizeInput";
+import { gqlDefaultInput, User } from "src/types";
+import { getFields } from "../utility/getFields";
 
 export const login = async (
-  _: any,
-  args: {
+  ...input: gqlDefaultInput<{
     user: {
       username: string;
       password: string;
     };
-  },
-  context: any,
-  info: any
+  }>
 ) => {
-  const { username, password } = args.user;
-  if (!username.trim().length || !password.trim().length)
+  const { args } = sanitizeInput(input);
+  let { username, password } = args.user;
+
+  username = username.trim();
+  password = password.trim();
+
+  if (!username.length || !password.length)
     throw new ApolloError("Please, enter your credentials correctly!", "400");
 
   const encryptedPassword = encryptPassword(username, password);
@@ -40,8 +45,9 @@ export const login = async (
   return { user, token };
 };
 
-export const user = async (_: any, __: any, context: Context) => {
+export const user = async (...input: gqlDefaultInput<{}>) => {
   try {
+    const { context } = sanitizeInput(input);
     const { auth, isAuthenticated } = context;
 
     if (!isAuthenticated) throw new ApolloError("Bad token", "401");

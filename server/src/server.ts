@@ -4,6 +4,7 @@ import resolvers from "./graphql/resolvers";
 import typeDefs from "./graphql/typedefs";
 import path from "path";
 import jwt from "jsonwebtoken";
+import { Context } from "./types";
 
 require("dotenv").config();
 

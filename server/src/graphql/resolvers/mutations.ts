@@ -1,21 +1,21 @@
 import { ApolloError } from "apollo-server-express";
+import { gqlDefaultInput, User } from "src/types";
 import { authDB } from "../../database/connections";
 import { encryptPassword } from "../utility/encryptPassword";
+import { sanitizeInput } from "../utility/sanitizeInput";
 import { signToken } from "../utility/signToken";
 
 export const updateEmail = async (
-  _: any,
-  args: {
+  ...input: gqlDefaultInput<{
     details: {
       id: number;
       oldEmail: string;
       newEmail: string;
     };
-  },
-  context: any,
-  info: any
+  }>
 ) => {
   try {
+    const { args } = sanitizeInput(input);
     if (
       !args.details.newEmail.trim().length ||
       !args.details.oldEmail.trim().length
@@ -47,25 +47,22 @@ export const updateEmail = async (
 };
 
 export const register = async (
-  _: any,
-  args: {
+  ...input: gqlDefaultInput<{
     user: {
       username: string;
       password: string;
       email: string;
     };
-  },
-  context: any,
-  info: any
+  }>
 ) => {
   try {
-    const { username, password, email } = args.user;
+    const { args } = sanitizeInput(input);
+    let { username, password, email } = args.user;
+    username = username.trim();
+    password = password.trim();
+    email = email.trim();
 
-    if (
-      !username.trim().length ||
-      !password.trim().length ||
-      !email.trim().length
-    )
+    if (!username.length || !password.length || !email.length)
       throw new ApolloError("Please, enter all fields!", "400");
 
     const encryptedPassword = encryptPassword(username, password);
