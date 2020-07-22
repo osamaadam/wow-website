@@ -1,9 +1,8 @@
-import { account, login } from "./resolvers/queries";
-import { updateEmail, register } from "./resolvers/mutations";
+import { register, updateEmail } from "./resolvers/mutations";
+import { login } from "./resolvers/queries";
 
 const resolvers = {
   Query: {
-    account,
     login,
   },
   Mutation: {

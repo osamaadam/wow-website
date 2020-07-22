@@ -1,6 +1,11 @@
 .register {
   &__form {
+    display: grid;
+    gap: 1em;
+  }
+  &__form-group {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 }

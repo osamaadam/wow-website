@@ -48,15 +48,17 @@ export const updateEmail = async (
 export const register = async (
   _: any,
   args: {
-    username: string;
-    password: string;
-    email: string;
+    user: {
+      username: string;
+      password: string;
+      email: string;
+    };
   },
   context: any,
   info: any
 ) => {
   try {
-    const { username, password, email } = args;
+    const { username, password, email } = args.user;
 
     if (
       !username.trim().length ||
@@ -81,11 +83,11 @@ export const register = async (
       `
     );
 
-    const account: Account = {
+    const user: User = {
       ...newUser[0],
     };
 
-    return account;
+    return user;
   } catch (error) {
     throw error;
   }

@@ -14,7 +14,7 @@
     "server:prod": "yarn workspace server prod",
     "client:start": "yarn workspace client start",
     "client:build": "yarn workspace client build",
-    "dev": "concurrently \"yarn server:watch\" \"yarn start:client\""
+    "dev": "concurrently \"yarn server:watch\" \"yarn client:start\""
   },
   "dependencies": {
     "concurrently": "^5.2.0"

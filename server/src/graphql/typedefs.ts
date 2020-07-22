@@ -13,11 +13,16 @@ const typeDefs = gql`
     newEmail: String!
   }
 
+  input Login {
+    username: String!
+    password: String!
+  }
+
   type Email {
     email: String!
   }
 
-  type Account {
+  type User {
     id: Int!
     username: String!
     email: String
@@ -29,13 +34,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    account(id: Int!): Account!
-    login(username: String!, password: String!): Account!
+    login(user: Login!): User!
   }
 
   type Mutation {
     updateEmail(details: UpdateEmail!): Email!
-    register(username: String!, email: String!, password: String!): Account!
+    register(user: Register): User!
   }
 `;
 
