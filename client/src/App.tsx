@@ -58,11 +58,13 @@ const App = () => {
       <UserContext.Provider value={{ state: userContext, dispatch }}>
         <Navbar />
         <main className="container">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-          </Switch>
+          <article className="card">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+            </Switch>
+          </article>
         </main>
       </UserContext.Provider>
     </Router>
