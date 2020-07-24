@@ -9,18 +9,14 @@
   box-shadow: var(--boxShadow);
   &__link {
     text-decoration: none;
-    margin-right: 1em;
     text-transform: capitalize;
     font-size: 1em;
     cursor: pointer;
-    padding: 1.2em 0.5em;
+    padding: 1.2em 1em;
     color: var(--primaryColor);
     &--highlighted {
       background-color: var(--highlightColor);
       color: var(--backgroundColor);
-    }
-    &:last-child {
-      margin-right: 0;
     }
     &:hover,
     &:focus {

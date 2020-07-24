@@ -6,11 +6,9 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {state.isLoggedIn ? (
-        <h1>Hello, {state.user.username}!</h1>
-      ) : (
-        <h1>Hello, please join us!</h1>
-      )}
+      <h1>
+        Hello, {state.isLoggedIn ? state.user.username : "please join us"}!
+      </h1>
     </>
   );
 };

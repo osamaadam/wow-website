@@ -2,15 +2,12 @@ import { gql, useLazyQuery } from "@apollo/client";
 import React from "react";
 import { UserContext } from "../context/UserContext";
 import "../scss/login-page.scss";
-import { useHistory } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { state, dispatch } = React.useContext(UserContext);
-
-  const history = useHistory();
+  const { dispatch } = React.useContext(UserContext);
 
   const [login, { data, loading, error }] = useLazyQuery<{
     info: { user: User; token: string };
@@ -45,10 +42,6 @@ const Login: React.FC = () => {
       },
     });
   };
-
-  React.useLayoutEffect(() => {
-    if (state.isLoggedIn) history.replace("/");
-  }, [state.isLoggedIn, history]);
 
   React.useEffect(() => {
     if (!loading && data) {

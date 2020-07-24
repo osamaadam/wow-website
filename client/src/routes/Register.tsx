@@ -1,17 +1,14 @@
 import { gql, useMutation } from "@apollo/client";
 import React from "react";
-import "../scss/register-page.scss";
 import { UserContext } from "../context/UserContext";
-import { useHistory } from "react-router-dom";
+import "../scss/register-page.scss";
 
 const Register: React.FC = () => {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { state, dispatch } = React.useContext(UserContext);
-
-  const history = useHistory();
+  const { dispatch } = React.useContext(UserContext);
 
   const [register, { data, loading, error }] = useMutation<{
     info: { user: User; token: string };
@@ -39,10 +36,6 @@ const Register: React.FC = () => {
     register({ variables: { user: { username, email, password } } });
     event.preventDefault();
   };
-
-  React.useLayoutEffect(() => {
-    if (state.isLoggedIn) history.replace("/");
-  }, [state.isLoggedIn, history]);
 
   React.useEffect(() => {
     if (!loading && data) {

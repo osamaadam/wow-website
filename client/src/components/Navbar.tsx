@@ -34,6 +34,15 @@ const Navbar: React.FC = () => {
           register
         </NavLink>
       )}
+      {state.isLoggedIn && (
+        <NavLink
+          activeClassName="navbar__link--highlighted"
+          to="/profile"
+          className="navbar__link"
+        >
+          profile
+        </NavLink>
+      )}
       {state.isLoggedIn ? (
         <button className="button navbar__login" onClick={handleLogout}>
           Logout

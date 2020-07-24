@@ -1,12 +1,18 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { initialState, UserContext, userReducer } from "./context/UserContext";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import "./scss/main.scss";
+import Profile from "./routes/Profile";
 
 const App = () => {
   const [userContext, dispatch] = React.useReducer(userReducer, initialState);
@@ -61,8 +67,15 @@ const App = () => {
           <article className="card">
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
+              <Route exact path="/login">
+                {userContext.isLoggedIn ? <Redirect to="/" /> : <Login />}
+              </Route>
+              <Route exact path="/register">
+                {userContext.isLoggedIn ? <Redirect to="/" /> : <Register />}
+              </Route>
+              <Route path="/profile">
+                {userContext.isLoggedIn ? <Profile /> : <Redirect to="/" />}
+              </Route>
             </Switch>
           </article>
         </main>

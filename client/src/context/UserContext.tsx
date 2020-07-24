@@ -39,7 +39,10 @@ const login = (state: State, user: User, token: string) => {
   localStorage.setItem("username", user.username);
   return {
     ...updatedState,
-    user,
+    user: {
+      ...user,
+      username: user.username.toLowerCase(),
+    },
     isLoggedIn: true,
   };
 };
