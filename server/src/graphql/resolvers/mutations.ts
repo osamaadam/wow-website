@@ -22,12 +22,12 @@ export const updateEmail = async (
     )
       throw new ApolloError("Please enter all fields!", "400");
 
-    const [oldEmail, __] = await authDB.execute(
+    const [oldEmail, __] = (await authDB.execute(
       `
       SELECT email FROM account
       WHERE id = ${args.details.id}
     `
-    );
+    )) as any;
 
     if (oldEmail[0].email !== args.details.oldEmail)
       throw new ApolloError("Wrong email", "401");
@@ -74,12 +74,12 @@ export const register = async (
       `
     );
 
-    const [newUser, __] = await authDB.execute(
+    const [newUser, __] = (await authDB.execute(
       `
         SELECT * FROM account
         WHERE username = "${username}"
       `
-    );
+    )) as any;
 
     const user: User = {
       ...newUser[0],

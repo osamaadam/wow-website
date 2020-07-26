@@ -24,13 +24,13 @@ export const login = async (
 
   const encryptedPassword = encryptPassword(username, password);
 
-  const [rows, __] = await authDB.execute(
+  const [rows, __] = (await authDB.execute(
     `
       SELECT *, sha_pass_hash as password
       FROM account
       WHERE username = "${username}";
     `
-  );
+  )) as any;
 
   const user: User = {
     ...rows[0],
@@ -51,12 +51,12 @@ export const user = async (...input: gqlDefaultInput<{}>) => {
 
     if (!isAuthenticated) throw new ApolloError("Bad token", "401");
 
-    const [rows, ___] = await authDB.execute(
+    const [rows, ___] = (await authDB.execute(
       `
       SELECT * FROM account
       WHERE id = ${auth.id}
     `
-    );
+    )) as any;
 
     if (!rows) throw new ApolloError("User not found", "404");
 
