@@ -28,8 +28,9 @@ export const login = async (
     `
       SELECT *, sha_pass_hash as password
       FROM account
-      WHERE username = "${username}";
-    `
+      WHERE username = ?
+    `,
+    [username]
   )) as any;
 
   const user: User = {
@@ -54,8 +55,9 @@ export const user = async (...input: gqlDefaultInput<{}>) => {
     const [rows, ___] = (await authDB.execute(
       `
       SELECT * FROM account
-      WHERE id = ${auth.id}
-    `
+      WHERE id = ?
+    `,
+      [auth.id]
     )) as any;
 
     if (!rows) throw new ApolloError("User not found", "404");

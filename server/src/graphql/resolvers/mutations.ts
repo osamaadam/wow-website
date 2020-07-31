@@ -25,8 +25,9 @@ export const updateEmail = async (
     const [oldEmail, __] = (await authDB.execute(
       `
       SELECT email FROM account
-      WHERE id = ${args.details.id}
-    `
+      WHERE id = ?
+    `,
+      [args.details.id]
     )) as any;
 
     if (oldEmail[0].email !== args.details.oldEmail)
@@ -35,9 +36,10 @@ export const updateEmail = async (
     await authDB.execute(
       `
       UPDATE account
-      SET email = "${args.details.newEmail}"
-      WHERE id = ${args.details.id}
-    `
+      SET email = ?
+      WHERE id = ?
+    `,
+      [args.details.newEmail, args.details.id]
     );
 
     return { email: args.details.newEmail };
@@ -70,15 +72,17 @@ export const register = async (
     await authDB.execute(
       `
         INSERT INTO account (username, sha_pass_hash, email, joindate)
-        VALUES ("${username}", "${encryptedPassword}", "${email}", NOW());
-      `
+        VALUES (?, ?, ?, NOW())
+      `,
+      [username, encryptedPassword, email]
     );
 
     const [newUser, __] = (await authDB.execute(
       `
         SELECT * FROM account
-        WHERE username = "${username}"
-      `
+        WHERE username = ?
+      `,
+      [username]
     )) as any;
 
     const user: User = {
